@@ -49,7 +49,7 @@ Public Class Form1
     Sub _loop()
         While True
             nextprayer()
-            Thread.Sleep(TimeSpan.FromSeconds(5))
+            Thread.Sleep(TimeSpan.FromSeconds(2))
         End While
     End Sub
     Sub nextprayer()
@@ -68,38 +68,41 @@ Public Class Form1
         End Try
     End Sub
     Sub TimeChecker()
-        Dim curr As Date = Date.Now
-        Dim prayerTime As New Date(curr.Year, curr.Month, curr.Day, CDate(nextPraytime).Hour, CDate(nextPraytime).Minute, 0)
-        If (curr <= prayerTime.AddSeconds(-10)) Then
-            'not due yet
+        Try
+            Dim curr As Date = Date.Now
+            Dim prayerTime As New Date(curr.Year, curr.Month, curr.Day, CDate(nextPraytime).Hour, CDate(nextPraytime).Minute, 0)
+            If (curr <= prayerTime.AddSeconds(-10)) Then
+                'not due yet
 
-            notified = False
-        Else
-            'due in 10 seconds
+                notified = False
+            Else
+                'due in 10 seconds
 
-            If Not notified Then
-                NotifyIcon1.Visible = True
-                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
-                NotifyIcon1.BalloonTipTitle = "Athan"
-                For i = 0 To times.Count - 1
-                    If CDate(times(i)) = prayerTime.ToString("hh:mm tt") Then
-                        If i = 0 Then
-                            NotifyIcon1.BalloonTipText = $"أذان الفجر"
-                        ElseIf i = 1 Then
-                            NotifyIcon1.BalloonTipText = "أذان الظهر"
-                        ElseIf i = 2 Then
-                            NotifyIcon1.BalloonTipText = "أذان العصر"
-                        ElseIf i = 3 Then
-                            NotifyIcon1.BalloonTipText = "أذان المغرب"
-                        ElseIf i = 4 Then
-                            NotifyIcon1.BalloonTipText = "أذان العشاء"
+                If Not notified Then
+                    NotifyIcon1.Visible = True
+                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
+                    NotifyIcon1.BalloonTipTitle = "Athan"
+                    For i = 0 To times.Count - 1
+                        If CDate(times(i)) = prayerTime.ToString("hh:mm tt") Then
+                            If i = 0 Then
+                                NotifyIcon1.BalloonTipText = $"أذان الفجر"
+                            ElseIf i = 1 Then
+                                NotifyIcon1.BalloonTipText = "أذان الظهر"
+                            ElseIf i = 2 Then
+                                NotifyIcon1.BalloonTipText = "أذان العصر"
+                            ElseIf i = 3 Then
+                                NotifyIcon1.BalloonTipText = "أذان المغرب"
+                            ElseIf i = 4 Then
+                                NotifyIcon1.BalloonTipText = "أذان العشاء"
+                            End If
+                            NotifyIcon1.ShowBalloonTip(50000)
                         End If
-                        NotifyIcon1.ShowBalloonTip(50000)
-                    End If
-                Next
-                notified = True
+                    Next
+                    notified = True
+                End If
             End If
-        End If
+        Catch ex As Exception
+        End Try
     End Sub
 #Region "Form1 Close/Hide Events"
     Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
