@@ -25,25 +25,26 @@ Public Class Form1
     End Sub
     Sub getTimes()
         Do
-            Try
-                'Clear Existing times
+            If My.Computer.Network.IsAvailable = True Then
+                Try
+                    'Clear Existing times
 
-                times.Clear()
+                    times.Clear()
 
-                Dim wc = New Net.WebClient
+                    Dim wc = New Net.WebClient
 
-                'Get Prayer times
-                Dim response As String = wc.DownloadString(url)
-                Dim matches As MatchCollection = Regex.Matches(response, "<p>(.*?)</p>")
-                For Each m As Match In matches
-                    Dim matched = m.Groups.Item(1).Value
-                    times.Add(matched)
-                Next
-                times.Remove(times(1))
-                Thread.Sleep(TimeSpan.FromHours(8))
-            Catch ex As Exception
-            End Try
-
+                    'Get Prayer times
+                    Dim response As String = wc.DownloadString(url)
+                    Dim matches As MatchCollection = Regex.Matches(response, "<p>(.*?)</p>")
+                    For Each m As Match In matches
+                        Dim matched = m.Groups.Item(1).Value
+                        times.Add(matched)
+                    Next
+                    times.Remove(times(1))
+                    Thread.Sleep(TimeSpan.FromHours(8))
+                Catch ex As Exception
+                End Try
+            End If
         Loop
     End Sub
     Sub _loop()
