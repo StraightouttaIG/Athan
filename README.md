@@ -1,4 +1,6 @@
-# Athan - أذان
+(Not supported anymore, Working on a new Version that is more suited for public use) 
+
+Athan - أذان
 Simple Reminder for Athan, Written in .NET
 
 اداة للتذكير بدخول وقت الأذان
